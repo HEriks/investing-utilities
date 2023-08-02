@@ -7,7 +7,7 @@ URL = r"https://mfn.se/all/s?filter=(and(or(.properties.tags%40%3E%5B%22sub%3Are
 
 def print_reports(reports):
     for report in reports:
-        res = f"{report['company']} : {report['title']}\nLink(s): {report['links']} \n"
+        res = f"{report['company']}: {report['title']}\nArticle: {report['title-link']}\nReport link(s): {report['report-links']}\n"
         print(res)
 
 def main():
@@ -30,12 +30,15 @@ def main():
         
         title = element.find("span", class_ = "compressed-title")
         report['title'] = title.text.strip('\n')
+        for a in title.find_all('a', href=True):
+            title_link = a['href']
+            report['title-link'] = "mfn.se" + title_link
         
         link_span = element.find("span", class_ = "attachment-wrapper")
         links = []
         for a in link_span.find_all('a', href=True):
             links.append(a['href'])
-        report['links'] = links
+        report['report-links'] = links
         
         reports.append(report)
     
