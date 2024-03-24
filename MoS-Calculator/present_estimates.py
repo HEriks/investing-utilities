@@ -33,7 +33,9 @@ def fetch_data():
     df['MoS2024'] = 1 - df['motivatedPrice2024'] / df['currentPrice']
     df['MoS2025'] = 1 - df['motivatedPrice2025'] / df['currentPrice']
 
-    
+    return df
+
+def present_data(dataframe : pd.DataFrame) -> None:
     # Create a GUI window
     window = tk.Tk()
     window.title("Margin of Safety")
@@ -61,5 +63,10 @@ def fetch_data():
     # Start the GUI event loop
     window.mainloop()
 
-# Call the fetch_data function to fetch the data and present it in a GUI
-fetch_data()
+def main():
+    # Call the fetch_data function to fetch the data and present it in a GUI
+    data = fetch_data()
+    present_data(data)
+
+if __name__ == "__main__":
+    main()
