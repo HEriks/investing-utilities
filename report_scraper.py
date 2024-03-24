@@ -5,12 +5,16 @@ import datetime
 TODAY = str(datetime.date.today())
 URL = r"https://mfn.se/all/s?filter=(and(or(.properties.tags%40%3E%5B%22sub%3Areport%22%5D))(or(.properties.lang%3D%22sv%22))(or(a.list_id%3D35207)(a.list_id%3D35208)(a.list_id%3D35209)(a.list_id%3D919325)(a.list_id%3D35198)(a.list_id%3D29934)(a.list_id%3D5700306)(a.list_id%3D4680265)))"
 
-def print_reports(reports):
+def generate_reports_output(reports):
+    output = f"Reports for {TODAY}:\n"
+
     for report in reports:
         res = f"{report['company']}: {report['title']}\nArticle: {report['title-link']}\nReport link(s): {report['report-links']}\n"
-        print(res)
+        output += res
 
-def main():
+    return output
+
+def generate_reports():
     page = requests.get(URL)
 
     soup = BeautifulSoup(page.content, "html.parser")
@@ -32,7 +36,7 @@ def main():
         report['title'] = title.text.strip('\n')
         for a in title.find_all('a', href=True):
             title_link = a['href']
-            report['title-link'] = "mfn.se" + title_link
+            report['title-link'] = "https://mfn.se" + title_link
         
         link_span = element.find("span", class_ = "attachment-wrapper")
         links = []
@@ -42,8 +46,5 @@ def main():
         
         reports.append(report)
     
-    print(f"Reports for {TODAY}:")
-    print_reports(reports)
-
-if __name__ == "__main__":
-    main()
+    output = generate_reports_output(reports)
+    return output
