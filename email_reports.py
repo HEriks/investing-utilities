@@ -18,12 +18,12 @@ def get_receiver_email(file):
 
 def main():
     # Email setup
-    email, password = get_email_credentials('credentials.txt')
+    email, password = get_email_credentials('reportsemail/credentials.txt')
 
 
     # Email parameters
     sender_email = email
-    receiver_email = get_receiver_email('receiver_email.txt')
+    receiver_email = get_receiver_email('reportsemail/emailto.txt')
     subject = f"Reports for {str(datetime.date.today())}"
     body = report_scraper.generate_reports()
 
