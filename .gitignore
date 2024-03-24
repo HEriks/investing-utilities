@@ -1,5 +1,6 @@
 # Email credentials
 credentials.txt
+/reportsemail
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
